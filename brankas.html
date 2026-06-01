@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Penyimpanan File Pribadi</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#121212;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:90%;
+    max-width:700px;
+    background:#1e1e1e;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,.4);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:#4CAF50;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+#app{
+    display:none;
+}
+
+.file-item{
+    background:#2a2a2a;
+    padding:10px;
+    margin-top:10px;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.file-item a{
+    color:#4CAF50;
+    text-decoration:none;
+}
+
+.delete-btn{
+    background:red;
+    width:auto;
+    padding:8px 12px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="login">
+        <h2>Login</h2>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Masuk</button>
+
+        <p id="msg" style="margin-top:10px;color:red;text-align:center;"></p>
+    </div>
+
+    <div id="app">
+        <h2>Penyimpanan File Pribadi</h2>
+
+        <input type="file" id="fileInput">
+        <button onclick="saveFile()">Simpan File</button>
+
+        <div id="fileList"></div>
+
+        <button onclick="logout()" style="background:#ff9800;">Logout</button>
+    </div>
+
+</div>
+
+<script>
+// ======================
+// SETTING LOGIN
+// ======================
+const USERNAME = "admin";
+const PASSWORD = "123456";
+
+// ======================
+// LOGIN
+// ======================
+function login(){
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if(user === USERNAME && pass === PASSWORD){
+        localStorage.setItem("loggedIn","true");
+
+        document.getElementById("login").style.display="none";
+        document.getElementById("app").style.display="block";
+
+        loadFiles();
+    }else{
+        document.getElementById("msg").innerText =
+        "Username atau password salah!";
+    }
+}
+
+// ======================
+// AUTO LOGIN
+// ======================
+window.onload = () =>{
+    if(localStorage.getItem("loggedIn")==="true"){
+        document.getElementById("login").style.display="none";
+        document.getElementById("app").style.display="block";
+        loadFiles();
+    }
+}
+
+// ======================
+// LOGOUT
+// ======================
+function logout(){
+    localStorage.removeItem("loggedIn");
+    location.reload();
+}
+
+// ======================
+// SIMPAN FILE
+// ======================
+function saveFile(){
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0];
+
+    if(!file){
+        alert("Pilih file terlebih dahulu!");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+        let files =
+        JSON.parse(localStorage.getItem("files") || "[]");
+
+        files.push({
+            name:file.name,
+            data:e.target.result
+        });
+
+        localStorage.setItem(
+            "files",
+            JSON.stringify(files)
+        );
+
+        loadFiles();
+        fileInput.value="";
+    }
+
+    reader.readAsDataURL(file);
+}
+
+// ======================
+// LOAD FILE
+// ======================
+function loadFiles(){
+
+    const fileList =
+    document.getElementById("fileList");
+
+    let files =
+    JSON.parse(localStorage.getItem("files") || "[]");
+
+    fileList.innerHTML="";
+
+    files.forEach((file,index)=>{
+
+        fileList.innerHTML += `
+        <div class="file-item">
+            <a href="${file.data}"
+               download="${file.name}">
+               ${file.name}
+            </a>
+
+            <button class="delete-btn"
+            onclick="deleteFile(${index})">
+            Hapus
+            </button>
+        </div>
+        `;
+    });
+}
+
+// ======================
+// HAPUS FILE
+// ======================
+function deleteFile(index){
+
+    let files =
+    JSON.parse(localStorage.getItem("files") || "[]");
+
+    files.splice(index,1);
+
+    localStorage.setItem(
+        "files",
+        JSON.stringify(files)
+    );
+
+    loadFiles();
+}
+</script>
+
+</body>
+</html>
