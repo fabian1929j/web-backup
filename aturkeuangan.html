@@ -1,0 +1,3813 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoneyTrack - Keuangan Pribadi</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --text:#17202a;
+    --muted:#7b8794;
+    --border:#e4e8ee;
+
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+
+    --green:#16a34a;
+    --red:#dc2626;
+    --orange:#f59e0b;
+    --purple:#7c3aed;
+
+    --shadow:0 8px 30px rgba(15,23,42,.07);
+}
+
+body.dark{
+    --bg:#0f172a;
+    --card:#182235;
+    --text:#f1f5f9;
+    --muted:#94a3b8;
+    --border:#293548;
+    --shadow:0 8px 30px rgba(0,0,0,.2);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    transition:.2s;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:min(1200px,94%);
+    margin:auto;
+}
+
+/* =========================
+HEADER
+========================= */
+
+header{
+    background:var(--card);
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.header-inner{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:12px;
+    background:var(--primary);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.logo h1{
+    font-size:20px;
+}
+
+.logo span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:2px;
+}
+
+.icon-btn{
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    font-size:17px;
+}
+
+/* =========================
+MAIN
+========================= */
+
+main{
+    padding:28px 0 60px;
+}
+
+/* =========================
+MONTH
+========================= */
+
+.month-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.month-bar h2{
+    font-size:25px;
+}
+
+.month-bar p{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:4px;
+}
+
+.month-control{
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.month-control button{
+    width:38px;
+    height:38px;
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    border-radius:9px;
+    font-size:18px;
+}
+
+.month-control input{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:9px;
+    border-radius:9px;
+}
+
+/* =========================
+ACCOUNT BALANCE
+========================= */
+
+.account-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.account-card{
+    padding:20px;
+    border-radius:16px;
+    background:var(--card);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+}
+
+.account-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.account-name{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.account-icon{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:19px;
+}
+
+.bank-icon{
+    background:#dbeafe;
+    color:#2563eb;
+}
+
+.cash-icon{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.total-icon{
+    background:#ede9fe;
+    color:#7c3aed;
+}
+
+.account-value{
+    font-size:25px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.account-sub{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+/* =========================
+SUMMARY
+========================= */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    box-shadow:var(--shadow);
+}
+
+.summary-card{
+    padding:18px;
+}
+
+.summary-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.summary-label{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.summary-icon{
+    width:36px;
+    height:36px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:17px;
+}
+
+.icon-green{
+    background:#dcfce7;
+    color:#16a34a;
+}
+
+.icon-red{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.icon-orange{
+    background:#fef3c7;
+    color:#d97706;
+}
+
+.summary-value{
+    font-size:22px;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+.summary-sub{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:5px;
+}
+
+.income{
+    color:var(--green);
+}
+
+.expense{
+    color:var(--red);
+}
+
+/* =========================
+CONTENT
+========================= */
+
+.content-grid{
+    display:grid;
+    grid-template-columns:360px 1fr;
+    gap:20px;
+}
+
+/* =========================
+FORM
+========================= */
+
+.form-card{
+    padding:22px;
+    height:max-content;
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:18px;
+}
+
+.tabs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:5px;
+    background:var(--bg);
+    padding:4px;
+    border-radius:10px;
+    margin-bottom:18px;
+}
+
+.tab{
+    type:button;
+    padding:10px;
+    border:0;
+    border-radius:8px;
+    background:transparent;
+    color:var(--muted);
+    font-weight:bold;
+}
+
+.tab.active{
+    background:var(--card);
+    color:var(--primary);
+    box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:var(--muted);
+    margin-bottom:7px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus{
+    border-color:var(--primary);
+}
+
+.amount-input{
+    font-size:20px!important;
+    font-weight:bold;
+}
+
+.account-select{
+    border:2px solid var(--primary)!important;
+}
+
+.btn-primary{
+    width:100%;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:var(--primary);
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    width:100%;
+    padding:11px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+    margin-top:8px;
+}
+
+/* =========================
+TRANSFER
+========================= */
+
+.transfer-card{
+    padding:20px;
+    margin-top:20px;
+}
+
+.transfer-title{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.transfer-desc{
+    color:var(--muted);
+    font-size:11px;
+    margin-bottom:16px;
+    line-height:1.5;
+}
+
+/* =========================
+BUDGET
+========================= */
+
+.budget-card{
+    margin-top:20px;
+    padding:20px;
+}
+
+.budget-head{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.budget-head h3{
+    font-size:15px;
+}
+
+.budget-head span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.progress{
+    height:9px;
+    background:var(--bg);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0;
+    background:var(--primary);
+    border-radius:20px;
+    transition:.3s;
+}
+
+.budget-info{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:8px;
+}
+
+/* =========================
+HISTORY
+========================= */
+
+.history-card{
+    padding:22px;
+}
+
+.history-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.history-tools{
+    display:flex;
+    gap:7px;
+}
+
+.search{
+    width:210px;
+    padding:10px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--card);
+    color:var(--text);
+    outline:none;
+}
+
+.export-btn{
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--card);
+    color:var(--text);
+}
+
+.transaction{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.transaction:last-child{
+    border-bottom:0;
+}
+
+.transaction-icon{
+    width:43px;
+    height:43px;
+    flex-shrink:0;
+    border-radius:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+}
+
+.transaction-info{
+    flex:1;
+    min-width:0;
+}
+
+.transaction-title{
+    font-size:14px;
+    font-weight:bold;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.transaction-meta{
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+}
+
+.transaction-amount{
+    font-size:14px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.transaction-actions{
+    display:flex;
+    gap:4px;
+}
+
+.small-btn{
+    width:31px;
+    height:31px;
+    border:1px solid var(--border);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--muted);
+}
+
+.small-btn:hover{
+    color:var(--primary);
+}
+
+.empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--muted);
+}
+
+.empty-icon{
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+/* =========================
+MODAL
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:100;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(450px,100%);
+    max-height:90vh;
+    overflow-y:auto;
+    background:var(--card);
+    border-radius:16px;
+    padding:25px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.close{
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    font-size:22px;
+}
+
+/* =========================
+TOAST
+========================= */
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#17202a;
+    color:white;
+    padding:13px 18px;
+    border-radius:10px;
+    opacity:0;
+    transform:translateY(15px);
+    pointer-events:none;
+    transition:.25s;
+    z-index:200;
+    font-size:13px;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .account-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .account-card:last-child{
+        grid-column:1/-1;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .header-inner{
+        height:62px;
+    }
+
+    main{
+        padding-top:20px;
+    }
+
+    .month-bar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .month-control{
+        width:100%;
+    }
+
+    .month-control input{
+        flex:1;
+    }
+
+    .account-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .account-card{
+        padding:15px;
+    }
+
+    .account-value{
+        font-size:18px;
+    }
+
+    .account-card:last-child{
+        grid-column:1/-1;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .summary-card{
+        padding:15px;
+    }
+
+    .summary-value{
+        font-size:17px;
+    }
+
+    .history-head{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .history-tools{
+        width:100%;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    
+
+    .transaction-amount{
+        font-size:12px;
+    }
+
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="container header-inner">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            ¥
+        </div>
+
+        <div>
+            <h1>MoneyTrack</h1>
+            <span>Pengatur Keuangan Pribadi</span>
+        </div>
+
+    </div>
+
+    <button
+        type="button"
+        class="icon-btn"
+        onclick="toggleDarkMode()"
+    >
+        🌙
+    </button>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="container">
+
+
+<!-- =========================
+BULAN
+========================= -->
+
+<div class="month-bar">
+
+    <div>
+
+        <h2 id="monthTitle">
+            Keuangan
+        </h2>
+
+        <p>
+            Kelola Bank, Cash, pemasukan dan pengeluaran.
+        </p>
+
+    </div>
+
+
+    <div class="month-control">
+
+        <button
+            type="button"
+            onclick="changeMonth(-1)"
+        >
+            ‹
+        </button>
+
+        <input
+            type="month"
+            id="monthPicker"
+            onchange="renderAll()"
+        >
+
+        <button
+            type="button"
+            onclick="changeMonth(1)"
+        >
+            ›
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+SALDO
+========================= -->
+
+<div class="account-grid">
+
+
+    <div class="account-card">
+
+        <div class="account-top">
+
+            <span class="account-name">
+                🏦 Saldo Bank
+            </span>
+
+            <div class="account-icon bank-icon">
+                ¥
+            </div>
+
+        </div>
+
+        <div
+            class="account-value"
+            id="bankBalance"
+        >
+            ¥0
+        </div>
+
+        <div class="account-sub">
+            Uang di rekening
+        </div>
+
+    </div>
+
+
+    <div class="account-card">
+
+        <div class="account-top">
+
+            <span class="account-name">
+                💵 Saldo Cash
+            </span>
+
+            <div class="account-icon cash-icon">
+                ¥
+            </div>
+
+        </div>
+
+        <div
+            class="account-value"
+            id="cashBalance"
+        >
+            ¥0
+        </div>
+
+        <div class="account-sub">
+            Uang tunai
+        </div>
+
+    </div>
+
+
+    <div class="account-card">
+
+        <div class="account-top">
+
+            <span class="account-name">
+                💎 Total Saldo
+            </span>
+
+            <div class="account-icon total-icon">
+                ¥
+            </div>
+
+        </div>
+
+        <div
+            class="account-value"
+            id="totalBalance"
+        >
+            ¥0
+        </div>
+
+        <div class="account-sub">
+            Bank + Cash
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+RINGKASAN
+========================= -->
+
+<div class="summary-grid">
+
+
+    <div class="card summary-card">
+
+        <div class="summary-top">
+
+            <span class="summary-label">
+                Pemasukan Bulan Ini
+            </span>
+
+            <div class="summary-icon icon-green">
+                ↗
+            </div>
+
+        </div>
+
+        <div
+            class="summary-value income"
+            id="income"
+        >
+            ¥0
+        </div>
+
+        <div class="summary-sub">
+            Gaji, bonus, freelance, dll.
+        </div>
+
+    </div>
+
+
+    <div class="card summary-card">
+
+        <div class="summary-top">
+
+            <span class="summary-label">
+                Pengeluaran Bulan Ini
+            </span>
+
+            <div class="summary-icon icon-red">
+                ↘
+            </div>
+
+        </div>
+
+        <div
+            class="summary-value expense"
+            id="expense"
+        >
+            ¥0
+        </div>
+
+        <div class="summary-sub">
+            Semua pengeluaran
+        </div>
+
+    </div>
+
+
+    <div class="card summary-card">
+
+        <div class="summary-top">
+
+            <span class="summary-label">
+                Jumlah Transaksi
+            </span>
+
+            <div class="summary-icon icon-orange">
+                ≡
+            </div>
+
+        </div>
+
+        <div
+            class="summary-value"
+            id="transactionCount"
+        >
+            0
+        </div>
+
+        <div class="summary-sub">
+            Bulan yang dipilih
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+CONTENT
+========================= -->
+
+<div class="content-grid">
+
+
+<!-- =========================
+KOLOM KIRI
+========================= -->
+
+<div>
+
+
+<!-- =========================
+TAMBAH TRANSAKSI
+========================= -->
+
+<div class="card form-card">
+
+    <div class="card-title">
+        Tambah Transaksi
+    </div>
+
+
+    <div class="tabs">
+
+        <!-- PENTING:
+             type="button" agar tidak submit form
+        -->
+
+        <button
+            type="button"
+            class="tab active"
+            id="expenseTab"
+            onclick="setType('expense')"
+        >
+            💸 Pengeluaran
+        </button>
+
+
+        <button
+            type="button"
+            class="tab"
+            id="incomeTab"
+            onclick="setType('income')"
+        >
+            💰 Pemasukan
+        </button>
+
+    </div>
+
+
+    <form id="transactionForm">
+
+
+        <!-- JUMLAH -->
+
+        <div class="form-group">
+
+            <label>
+                Jumlah
+            </label>
+
+            <input
+                type="number"
+                id="amount"
+                class="amount-input"
+                placeholder="Contoh: 200000"
+                min="1"
+                required
+            >
+
+        </div>
+
+
+        <!-- KETERANGAN -->
+
+        <div class="form-group">
+
+            <label id="descriptionLabel">
+                Nama transaksi
+            </label>
+
+            <input
+                type="text"
+                id="description"
+                placeholder="Contoh: Beli makanan"
+            >
+
+        </div>
+
+
+        <!-- SUMBER PEMASUKAN -->
+
+        <div
+            class="form-group"
+            id="incomeSourceGroup"
+            style="display:none"
+        >
+
+            <label>
+                Sumber Pemasukan
+            </label>
+
+            <select id="incomeSource">
+
+                <option value="Gaji">
+                    💼 Gaji
+                </option>
+
+                <option value="Bonus Kerja">
+                    🎁 Bonus Kerja
+                </option>
+
+                <option value="Freelance">
+                    💻 Freelance
+                </option>
+
+                <option value="Hadiah">
+                    🎀 Hadiah
+                </option>
+
+                <option value="Lainnya">
+                    📦 Lainnya
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- AKUN -->
+
+        <div class="form-group">
+
+            <label>
+                Masuk / Keluar Dari
+            </label>
+
+            <select
+                id="account"
+                class="account-select"
+            >
+
+                <option value="bank">
+                    🏦 Bank
+                </option>
+
+                <option value="cash">
+                    💵 Cash / Uang Nyata
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- KATEGORI PENGELUARAN -->
+
+        <div
+            class="form-group"
+            id="expenseCategoryGroup"
+        >
+
+            <label>
+                Kategori Pengeluaran
+            </label>
+
+            <select id="category">
+
+                <option value="Makanan">
+                    🍜 Makanan
+                </option>
+
+                <option value="Belanja">
+                    🛒 Belanja
+                </option>
+
+                <option value="Transportasi">
+                    🚃 Transportasi
+                </option>
+
+                <option value="Tagihan">
+                    📄 Tagihan
+                </option>
+
+                <option value="Tempat Tinggal">
+                    🏠 Tempat Tinggal
+                </option>
+
+                <option value="Hiburan">
+                    🎮 Hiburan
+                </option>
+
+                <option value="Kesehatan">
+                    💊 Kesehatan
+                </option>
+
+                <option value="Pendidikan">
+                    📚 Pendidikan
+                </option>
+
+                <option value="Lainnya">
+                    📦 Lainnya
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- TANGGAL -->
+
+        <div class="form-group">
+
+            <label>
+                Tanggal
+            </label>
+
+            <input
+                type="date"
+                id="date"
+                required
+            >
+
+        </div>
+
+
+        <!-- CATATAN -->
+
+        <div class="form-group">
+
+            <label>
+                Catatan
+            </label>
+
+            <input
+                type="text"
+                id="note"
+                placeholder="Opsional"
+            >
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn-primary"
+            id="submitBtn"
+        >
+            + Tambah Pengeluaran
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================
+TRANSFER
+========================= -->
+
+<div class="card transfer-card">
+
+    <div class="transfer-title">
+        🔄 Tarik / Pindahkan Uang
+    </div>
+
+    <div class="transfer-desc">
+        Tarik uang dari Bank menjadi Cash.
+        Biaya admin akan mengurangi saldo Bank.
+    </div>
+
+    <button
+        type="button"
+        class="btn-primary"
+        onclick="openTransferModal()"
+    >
+        + Transfer Bank → Cash
+    </button>
+
+</div>
+
+
+<!-- =========================
+BUDGET
+========================= -->
+
+<div class="card budget-card">
+
+    <div class="budget-head">
+
+        <h3>
+            🎯 Anggaran Bulanan
+        </h3>
+
+        <span id="budgetPercent">
+            0%
+        </span>
+
+    </div>
+
+
+    <div class="progress">
+
+        <div
+            class="progress-bar"
+            id="progressBar"
+        ></div>
+
+    </div>
+
+
+    <div class="budget-info">
+
+        <span id="budgetUsed">
+            Terpakai ¥0
+        </span>
+
+        <span id="budgetLimit">
+            Budget ¥0
+        </span>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="btn-secondary"
+        onclick="openBudgetModal()"
+    >
+        ⚙ Atur Budget
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+RIWAYAT
+========================= -->
+
+<div class="card history-card">
+
+    <div class="history-head">
+
+        <div
+            class="card-title"
+            style="margin:0"
+        >
+            Riwayat Transaksi
+        </div>
+
+
+        <div class="history-tools">
+
+            <input
+                type="text"
+                class="search"
+                id="searchInput"
+                placeholder="🔍 Cari transaksi..."
+                oninput="renderHistory()"
+            >
+
+            <button
+                type="button"
+                class="export-btn"
+                onclick="exportCSV()"
+            >
+                CSV
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div id="transactionList"></div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- =========================
+MODAL TRANSFER
+========================= -->
+
+<div
+    class="modal"
+    id="transferModal"
+>
+
+<div class="modal-box">
+
+    <div class="modal-head">
+
+        <h3>
+            Transfer Bank → Cash
+        </h3>
+
+        <button
+            type="button"
+            class="close"
+            onclick="closeTransferModal()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Jumlah uang yang ditarik
+        </label>
+
+        <input
+            type="number"
+            id="transferAmount"
+            placeholder="Contoh: 30000"
+            min="1"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Biaya admin
+        </label>
+
+        <input
+            type="number"
+            id="transferFee"
+            placeholder="Contoh: 220"
+            min="0"
+            value="0"
+        >
+
+    </div>
+
+
+    <div
+        style="
+        background:var(--bg);
+        padding:12px;
+        border-radius:10px;
+        font-size:12px;
+        margin-bottom:15px;
+        "
+    >
+
+        <div>
+            Cash bertambah:
+            <strong id="transferPreviewCash">
+                ¥0
+            </strong>
+        </div>
+
+        <div style="margin-top:5px">
+            Bank berkurang:
+            <strong id="transferPreviewBank">
+                ¥0
+            </strong>
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="btn-primary"
+        onclick="doTransfer()"
+    >
+        Tarik Uang
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+MODAL BUDGET
+========================= -->
+
+<div
+    class="modal"
+    id="budgetModal"
+>
+
+<div class="modal-box">
+
+    <div class="modal-head">
+
+        <h3>
+            Atur Budget
+        </h3>
+
+        <button
+            type="button"
+            class="close"
+            onclick="closeBudgetModal()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Budget pengeluaran bulan ini
+        </label>
+
+        <input
+            type="number"
+            id="budgetInput"
+            min="0"
+            placeholder="Contoh: 100000"
+        >
+
+    </div>
+
+
+    <button
+        type="button"
+        class="btn-primary"
+        onclick="saveBudget()"
+    >
+        Simpan Budget
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+MODAL EDIT
+========================= -->
+
+<div
+    class="modal"
+    id="editModal"
+>
+
+<div class="modal-box">
+
+    <div class="modal-head">
+
+        <h3>
+            Edit Transaksi
+        </h3>
+
+        <button
+            type="button"
+            class="close"
+            onclick="closeEditModal()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <input
+        type="hidden"
+        id="editId"
+    >
+
+
+    <div class="form-group">
+
+        <label>
+            Jenis
+        </label>
+
+        <select id="editType">
+
+            <option value="expense">
+                💸 Pengeluaran
+            </option>
+
+            <option value="income">
+                💰 Pemasukan
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Jumlah
+        </label>
+
+        <input
+            type="number"
+            id="editAmount"
+            min="1"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Keterangan
+        </label>
+
+        <input
+            type="text"
+            id="editDescription"
+        >
+
+    </div>
+
+
+    <!-- SUMBER PEMASUKAN EDIT -->
+
+    <div
+        class="form-group"
+        id="editIncomeSourceGroup"
+        style="display:none"
+    >
+
+        <label>
+            Sumber Pemasukan
+        </label>
+
+        <select id="editIncomeSource">
+
+            <option value="Gaji">
+                💼 Gaji
+            </option>
+
+            <option value="Bonus Kerja">
+                🎁 Bonus Kerja
+            </option>
+
+            <option value="Freelance">
+                💻 Freelance
+            </option>
+
+            <option value="Hadiah">
+                🎀 Hadiah
+            </option>
+
+            <option value="Lainnya">
+                📦 Lainnya
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- AKUN EDIT -->
+
+    <div class="form-group">
+
+        <label>
+            Akun
+        </label>
+
+        <select id="editAccount">
+
+            <option value="bank">
+                🏦 Bank
+            </option>
+
+            <option value="cash">
+                💵 Cash
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- KATEGORI EDIT -->
+
+    <div
+        class="form-group"
+        id="editCategoryGroup"
+    >
+
+        <label>
+            Kategori Pengeluaran
+        </label>
+
+        <select id="editCategory">
+
+            <option value="Makanan">
+                🍜 Makanan
+            </option>
+
+            <option value="Belanja">
+                🛒 Belanja
+            </option>
+
+            <option value="Transportasi">
+                🚃 Transportasi
+            </option>
+
+            <option value="Tagihan">
+                📄 Tagihan
+            </option>
+
+            <option value="Tempat Tinggal">
+                🏠 Tempat Tinggal
+            </option>
+
+            <option value="Hiburan">
+                🎮 Hiburan
+            </option>
+
+            <option value="Kesehatan">
+                💊 Kesehatan
+            </option>
+
+            <option value="Pendidikan">
+                📚 Pendidikan
+            </option>
+
+            <option value="Lainnya">
+                📦 Lainnya
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Tanggal
+        </label>
+
+        <input
+            type="date"
+            id="editDate"
+        >
+
+    </div>
+
+
+    <div class="form-group">
+
+        <label>
+            Catatan
+        </label>
+
+        <input
+            type="text"
+            id="editNote"
+        >
+
+    </div>
+
+
+    <button
+        type="button"
+        class="btn-primary"
+        onclick="updateTransaction()"
+    >
+        Simpan Perubahan
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =====================================================
+DATA
+===================================================== */
+
+let transactions =
+    JSON.parse(
+        localStorage.getItem(
+            "moneytrack_transactions"
+        )
+    ) || [];
+
+
+let transfers =
+    JSON.parse(
+        localStorage.getItem(
+            "moneytrack_transfers"
+        )
+    ) || [];
+
+
+let budgets =
+    JSON.parse(
+        localStorage.getItem(
+            "moneytrack_budgets"
+        )
+    ) || {};
+
+
+let initialBalances =
+    JSON.parse(
+        localStorage.getItem(
+            "moneytrack_initial_balances"
+        )
+    ) || {
+        bank:0,
+        cash:0
+    };
+
+
+let currentType = "expense";
+
+let selectedMonth = getCurrentMonth();
+
+
+/* =====================================================
+INITIALIZATION
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        document.getElementById(
+            "monthPicker"
+        ).value = selectedMonth;
+
+
+        document.getElementById(
+            "date"
+        ).value = getToday();
+
+
+        setType("expense");
+
+        renderAll();
+
+    }
+);
+
+
+/* =====================================================
+HELPER
+===================================================== */
+
+function getToday(){
+
+    return new Date()
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
+function getCurrentMonth(){
+
+    return new Date()
+        .toISOString()
+        .slice(0,7);
+
+}
+
+
+function formatMoney(number){
+
+    return new Intl.NumberFormat(
+        "ja-JP",
+        {
+            style:"currency",
+            currency:"JPY",
+            maximumFractionDigits:0
+        }
+    ).format(number);
+
+}
+
+
+function formatDate(date){
+
+    if(!date){
+        return "";
+    }
+
+
+    return new Date(
+        date + "T00:00:00"
+    ).toLocaleDateString(
+        "id-ID",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+function escapeHTML(str){
+
+    return String(str || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+MONTH
+===================================================== */
+
+function changeMonth(amount){
+
+    const picker =
+        document.getElementById(
+            "monthPicker"
+        );
+
+
+    const current =
+        new Date(
+            picker.value + "-01"
+        );
+
+
+    current.setMonth(
+        current.getMonth() + amount
+    );
+
+
+    const year =
+        current.getFullYear();
+
+
+    const month =
+        String(
+            current.getMonth() + 1
+        ).padStart(2,"0");
+
+
+    selectedMonth =
+        `${year}-${month}`;
+
+
+    picker.value =
+        selectedMonth;
+
+
+    renderAll();
+
+}
+
+
+/* =====================================================
+CHANGE TYPE
+===================================================== */
+
+function setType(type){
+
+    currentType = type;
+
+
+    const expenseTab =
+        document.getElementById(
+            "expenseTab"
+        );
+
+
+    const incomeTab =
+        document.getElementById(
+            "incomeTab"
+        );
+
+
+    expenseTab.classList.toggle(
+        "active",
+        type === "expense"
+    );
+
+
+    incomeTab.classList.toggle(
+        "active",
+        type === "income"
+    );
+
+
+    const incomeSourceGroup =
+        document.getElementById(
+            "incomeSourceGroup"
+        );
+
+
+    const expenseCategoryGroup =
+        document.getElementById(
+            "expenseCategoryGroup"
+        );
+
+
+    const descriptionLabel =
+        document.getElementById(
+            "descriptionLabel"
+        );
+
+
+    const description =
+        document.getElementById(
+            "description"
+        );
+
+
+    const submitBtn =
+        document.getElementById(
+            "submitBtn"
+        );
+
+
+    if(type === "expense"){
+
+        incomeSourceGroup.style.display =
+            "none";
+
+
+        expenseCategoryGroup.style.display =
+            "block";
+
+
+        descriptionLabel.textContent =
+            "Nama transaksi";
+
+
+        description.placeholder =
+            "Contoh: Beli makanan";
+
+
+        submitBtn.textContent =
+            "+ Tambah Pengeluaran";
+
+    }
+
+
+    else{
+
+        incomeSourceGroup.style.display =
+            "block";
+
+
+        expenseCategoryGroup.style.display =
+            "none";
+
+
+        descriptionLabel.textContent =
+            "Keterangan pemasukan";
+
+
+        description.placeholder =
+            "Opsional, misalnya: Gaji bulan Agustus";
+
+
+        submitBtn.textContent =
+            "+ Tambah Pemasukan";
+
+    }
+
+}
+
+
+/* =====================================================
+ADD TRANSACTION
+===================================================== */
+
+document.getElementById(
+    "transactionForm"
+).addEventListener(
+    "submit",
+    function(e){
+
+        e.preventDefault();
+
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "amount"
+                ).value
+            );
+
+
+        let description =
+            document.getElementById(
+                "description"
+            ).value.trim();
+
+
+        const account =
+            document.getElementById(
+                "account"
+            ).value;
+
+
+        const category =
+            currentType === "expense"
+            ? document.getElementById(
+                "category"
+            ).value
+            : "";
+
+
+        const incomeSource =
+            currentType === "income"
+            ? document.getElementById(
+                "incomeSource"
+            ).value
+            : "";
+
+
+        const date =
+            document.getElementById(
+                "date"
+            ).value;
+
+
+        const note =
+            document.getElementById(
+                "note"
+            ).value.trim();
+
+
+        /* JUMLAH WAJIB */
+
+        if(!amount || amount <= 0){
+
+            showToast(
+                "Masukkan jumlah uang."
+            );
+
+            return;
+
+        }
+
+
+        /*
+
+        KETERANGAN PEMASUKAN
+        TIDAK WAJIB.
+
+        Kalau kosong,
+        otomatis pakai sumber.
+
+        Contoh:
+
+        Sumber = Gaji
+        Keterangan kosong
+
+        Maka nama transaksi:
+        Gaji
+
+        */
+
+        if(
+            currentType === "income" &&
+            !description
+        ){
+
+            description =
+                incomeSource;
+
+        }
+
+
+        /* CEK SALDO PENGELUARAN */
+
+        if(
+            currentType === "expense"
+        ){
+
+            const balances =
+                calculateBalances();
+
+
+            if(
+                balances[account] <
+                amount
+            ){
+
+                showToast(
+                    "Saldo " +
+                    (
+                        account === "bank"
+                        ? "Bank"
+                        : "Cash"
+                    ) +
+                    " tidak cukup."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /* SIMPAN TRANSAKSI */
+
+        transactions.push({
+
+            id:Date.now(),
+
+            type:currentType,
+
+            amount:amount,
+
+            description:description,
+
+            account:account,
+
+            category:category,
+
+            incomeSource:incomeSource,
+
+            date:date,
+
+            note:note
+
+        });
+
+
+        saveData();
+
+
+        /* RESET FORM */
+
+        this.reset();
+
+
+        document.getElementById(
+            "date"
+        ).value =
+            getToday();
+
+
+        setType(currentType);
+
+
+        renderAll();
+
+
+        showToast(
+            currentType === "income"
+            ? "Pemasukan berhasil ditambahkan."
+            : "Pengeluaran berhasil ditambahkan."
+        );
+
+    }
+);
+
+
+/* =====================================================
+CALCULATE BALANCE
+===================================================== */
+
+function calculateBalances(){
+
+    let bank =
+        Number(
+            initialBalances.bank
+        ) || 0;
+
+
+    let cash =
+        Number(
+            initialBalances.cash
+        ) || 0;
+
+
+    /* TRANSACTIONS */
+
+    transactions.forEach(
+        function(t){
+
+            if(
+                t.type === "income"
+            ){
+
+                if(
+                    t.account === "bank"
+                ){
+
+                    bank +=
+                        Number(t.amount);
+
+                }
+
+                else{
+
+                    cash +=
+                        Number(t.amount);
+
+                }
+
+            }
+
+
+            else{
+
+                if(
+                    t.account === "bank"
+                ){
+
+                    bank -=
+                        Number(t.amount);
+
+                }
+
+                else{
+
+                    cash -=
+                        Number(t.amount);
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* TRANSFER BANK → CASH */
+
+    transfers.forEach(
+        function(t){
+
+            bank -=
+                Number(t.amount) +
+                Number(t.fee);
+
+
+            cash +=
+                Number(t.amount);
+
+        }
+    );
+
+
+    return {
+        bank:bank,
+        cash:cash
+    };
+
+}
+
+
+/* =====================================================
+RENDER ALL
+===================================================== */
+
+function renderAll(){
+
+    selectedMonth =
+        document.getElementById(
+            "monthPicker"
+        ).value;
+
+
+    renderBalances();
+
+    renderSummary();
+
+    renderHistory();
+
+    renderBudget();
+
+    updateMonthTitle();
+
+}
+
+
+/* =====================================================
+RENDER BALANCES
+===================================================== */
+
+function renderBalances(){
+
+    const balances =
+        calculateBalances();
+
+
+    document.getElementById(
+        "bankBalance"
+    ).textContent =
+        formatMoney(
+            balances.bank
+        );
+
+
+    document.getElementById(
+        "cashBalance"
+    ).textContent =
+        formatMoney(
+            balances.cash
+        );
+
+
+    document.getElementById(
+        "totalBalance"
+    ).textContent =
+        formatMoney(
+            balances.bank +
+            balances.cash
+        );
+
+}
+
+
+/* =====================================================
+MONTH TRANSACTIONS
+===================================================== */
+
+function getMonthTransactions(){
+
+    return transactions.filter(
+        function(t){
+
+            return t.date.startsWith(
+                selectedMonth
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+SUMMARY
+===================================================== */
+
+function renderSummary(){
+
+    const data =
+        getMonthTransactions();
+
+
+    const income =
+        data
+        .filter(
+            function(t){
+                return t.type === "income";
+            }
+        )
+        .reduce(
+            function(sum,t){
+                return sum +
+                    Number(t.amount);
+            },
+            0
+        );
+
+
+    const expense =
+        data
+        .filter(
+            function(t){
+                return t.type === "expense";
+            }
+        )
+        .reduce(
+            function(sum,t){
+                return sum +
+                    Number(t.amount);
+            },
+            0
+        );
+
+
+    document.getElementById(
+        "income"
+    ).textContent =
+        formatMoney(income);
+
+
+    document.getElementById(
+        "expense"
+    ).textContent =
+        formatMoney(expense);
+
+
+    document.getElementById(
+        "transactionCount"
+    ).textContent =
+        data.length;
+
+}
+
+
+/* =====================================================
+MONTH TITLE
+===================================================== */
+
+function updateMonthTitle(){
+
+    if(!selectedMonth){
+        return;
+    }
+
+
+    const parts =
+        selectedMonth.split("-");
+
+
+    const year =
+        Number(parts[0]);
+
+
+    const month =
+        Number(parts[1]);
+
+
+    const date =
+        new Date(
+            year,
+            month - 1,
+            1
+        );
+
+
+    const monthName =
+        date.toLocaleDateString(
+            "id-ID",
+            {
+                month:"long",
+                year:"numeric"
+            }
+        );
+
+
+    document.getElementById(
+        "monthTitle"
+    ).textContent =
+        "Keuangan " +
+        monthName;
+
+}
+
+
+/* =====================================================
+HISTORY
+===================================================== */
+
+function renderHistory(){
+
+    const list =
+        document.getElementById(
+            "transactionList"
+        );
+
+
+    const search =
+        document.getElementById(
+            "searchInput"
+        ).value
+        .toLowerCase()
+        .trim();
+
+
+    let data =
+        getMonthTransactions();
+
+
+    if(search){
+
+        data =
+            data.filter(
+                function(t){
+
+                    return (
+
+                        (t.description || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        (t.category || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        (t.incomeSource || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                        ||
+
+                        (t.note || "")
+                        .toLowerCase()
+                        .includes(search)
+
+                    );
+
+                }
+            );
+
+    }
+
+
+    data.sort(
+        function(a,b){
+
+            return new Date(b.date) -
+                new Date(a.date);
+
+        }
+    );
+
+
+    if(data.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🧾
+                </div>
+
+                <div>
+                    Belum ada transaksi.
+                </div>
+
+                <div
+                    style="
+                    font-size:12px;
+                    margin-top:5px
+                    "
+                >
+                    Tambahkan pemasukan
+                    atau pengeluaran.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML =
+        data.map(
+            function(t){
+
+                const isIncome =
+                    t.type === "income";
+
+
+                const icon =
+                    isIncome
+                    ? "💰"
+                    : getCategoryIcon(
+                        t.category
+                    );
+
+
+                const account =
+                    t.account === "bank"
+                    ? "🏦 Bank"
+                    : "💵 Cash";
+
+
+                const detail =
+                    isIncome
+                    ? t.incomeSource
+                    : t.category;
+
+
+                return `
+
+                    <div class="transaction">
+
+                        <div
+                            class="transaction-icon"
+                            style="
+                            background:
+                            ${
+                                isIncome
+                                ? "#dcfce7"
+                                : "#fee2e2"
+                            };
+                            "
+                        >
+                            ${icon}
+                        </div>
+
+
+                        <div class="transaction-info">
+
+                            <div
+                                class="transaction-title"
+                            >
+                                ${escapeHTML(
+                                    t.description
+                                )}
+                            </div>
+
+
+                            <div
+                                class="transaction-meta"
+                            >
+
+                                ${formatDate(t.date)}
+
+                                •
+
+                                ${escapeHTML(
+                                    detail || ""
+                                )}
+
+                                •
+
+                                ${account}
+
+                                ${
+                                    t.note
+                                    ? " • " +
+                                      escapeHTML(
+                                          t.note
+                                      )
+                                    : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="
+                            transaction-amount
+                            ${
+                                isIncome
+                                ? "income"
+                                : "expense"
+                            }
+                            "
+                        >
+
+                            ${
+                                isIncome
+                                ? "+"
+                                : "-"
+                            }
+
+                            ${formatMoney(
+                                t.amount
+                            )}
+
+                        </div>
+
+
+                        <div
+                            class="
+                            transaction-actions
+                            "
+                        >
+
+                            <button
+                                type="button"
+                                class="small-btn"
+                                onclick="
+                                    editTransaction(
+                                        ${t.id}
+                                    )
+                                "
+                            >
+                                ✏
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="small-btn"
+                                onclick="
+                                    deleteTransaction(
+                                        ${t.id}
+                                    )
+                                "
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =====================================================
+CATEGORY ICON
+===================================================== */
+
+function getCategoryIcon(category){
+
+    const icons = {
+
+        "Makanan":"🍜",
+
+        "Belanja":"🛒",
+
+        "Transportasi":"🚃",
+
+        "Tagihan":"📄",
+
+        "Tempat Tinggal":"🏠",
+
+        "Hiburan":"🎮",
+
+        "Kesehatan":"💊",
+
+        "Pendidikan":"📚",
+
+        "Lainnya":"📦"
+
+    };
+
+
+    return icons[category] || "📦";
+
+}
+
+
+/* =====================================================
+DELETE
+===================================================== */
+
+function deleteTransaction(id){
+
+    const target =
+        transactions.find(
+            function(t){
+                return t.id === id;
+            }
+        );
+
+
+    if(!target){
+        return;
+    }
+
+
+    const confirmDelete =
+        confirm(
+            `Hapus transaksi "${target.description}"?`
+        );
+
+
+    if(!confirmDelete){
+        return;
+    }
+
+
+    transactions =
+        transactions.filter(
+            function(t){
+                return t.id !== id;
+            }
+        );
+
+
+    saveData();
+
+    renderAll();
+
+    showToast(
+        "Transaksi berhasil dihapus."
+    );
+
+}
+
+
+/* =====================================================
+EDIT TRANSACTION
+===================================================== */
+
+function editTransaction(id){
+
+    const t =
+        transactions.find(
+            function(x){
+                return x.id === id;
+            }
+        );
+
+
+    if(!t){
+        return;
+    }
+
+
+    document.getElementById(
+        "editId"
+    ).value =
+        t.id;
+
+
+    document.getElementById(
+        "editType"
+    ).value =
+        t.type;
+
+
+    document.getElementById(
+        "editAmount"
+    ).value =
+        t.amount;
+
+
+    document.getElementById(
+        "editDescription"
+    ).value =
+        t.description || "";
+
+
+    document.getElementById(
+        "editIncomeSource"
+    ).value =
+        t.incomeSource || "Gaji";
+
+
+    document.getElementById(
+        "editAccount"
+    ).value =
+        t.account || "bank";
+
+
+    document.getElementById(
+        "editCategory"
+    ).value =
+        t.category || "Makanan";
+
+
+    document.getElementById(
+        "editDate"
+    ).value =
+        t.date;
+
+
+    document.getElementById(
+        "editNote"
+    ).value =
+        t.note || "";
+
+
+    updateEditFields();
+
+
+    document.getElementById(
+        "editModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "editType"
+).addEventListener(
+    "change",
+    updateEditFields
+);
+
+
+function updateEditFields(){
+
+    const type =
+        document.getElementById(
+            "editType"
+        ).value;
+
+
+    const isIncome =
+        type === "income";
+
+
+    document.getElementById(
+        "editIncomeSourceGroup"
+    ).style.display =
+        isIncome
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "editCategoryGroup"
+    ).style.display =
+        isIncome
+        ? "none"
+        : "block";
+
+}
+
+
+function closeEditModal(){
+
+    document.getElementById(
+        "editModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function updateTransaction(){
+
+    const id =
+        Number(
+            document.getElementById(
+                "editId"
+            ).value
+        );
+
+
+    const t =
+        transactions.find(
+            function(x){
+                return x.id === id;
+            }
+        );
+
+
+    if(!t){
+        return;
+    }
+
+
+    t.type =
+        document.getElementById(
+            "editType"
+        ).value;
+
+
+    t.amount =
+        Number(
+            document.getElementById(
+                "editAmount"
+            ).value
+        );
+
+
+    t.description =
+        document.getElementById(
+            "editDescription"
+        ).value.trim();
+
+
+    t.account =
+        document.getElementById(
+            "editAccount"
+        ).value;
+
+
+    t.date =
+        document.getElementById(
+            "editDate"
+        ).value;
+
+
+    t.note =
+        document.getElementById(
+            "editNote"
+        ).value.trim();
+
+
+    if(t.type === "income"){
+
+        t.incomeSource =
+            document.getElementById(
+                "editIncomeSource"
+            ).value;
+
+
+        t.category = "";
+
+
+        /* Jika keterangan kosong,
+           gunakan sumber pemasukan */
+
+        if(!t.description){
+
+            t.description =
+                t.incomeSource;
+
+        }
+
+    }
+
+
+    else{
+
+        t.category =
+            document.getElementById(
+                "editCategory"
+            ).value;
+
+
+        t.incomeSource = "";
+
+    }
+
+
+    saveData();
+
+    closeEditModal();
+
+    renderAll();
+
+    showToast(
+        "Transaksi berhasil diperbarui."
+    );
+
+}
+
+
+/* =====================================================
+TRANSFER BANK → CASH
+===================================================== */
+
+function openTransferModal(){
+
+    document.getElementById(
+        "transferAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "transferFee"
+    ).value = "0";
+
+
+    updateTransferPreview();
+
+
+    document.getElementById(
+        "transferModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeTransferModal(){
+
+    document.getElementById(
+        "transferModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "transferAmount"
+).addEventListener(
+    "input",
+    updateTransferPreview
+);
+
+
+document.getElementById(
+    "transferFee"
+).addEventListener(
+    "input",
+    updateTransferPreview
+);
+
+
+function updateTransferPreview(){
+
+    const amount =
+        Number(
+            document.getElementById(
+                "transferAmount"
+            ).value
+        ) || 0;
+
+
+    const fee =
+        Number(
+            document.getElementById(
+                "transferFee"
+            ).value
+        ) || 0;
+
+
+    document.getElementById(
+        "transferPreviewCash"
+    ).textContent =
+        formatMoney(
+            amount
+        );
+
+
+    document.getElementById(
+        "transferPreviewBank"
+    ).textContent =
+        formatMoney(
+            amount + fee
+        );
+
+}
+
+
+function doTransfer(){
+
+    const amount =
+        Number(
+            document.getElementById(
+                "transferAmount"
+            ).value
+        );
+
+
+    const fee =
+        Number(
+            document.getElementById(
+                "transferFee"
+            ).value
+        ) || 0;
+
+
+    if(!amount || amount <= 0){
+
+        showToast(
+            "Jumlah transfer tidak valid."
+        );
+
+        return;
+
+    }
+
+
+    if(fee < 0){
+
+        showToast(
+            "Biaya admin tidak valid."
+        );
+
+        return;
+
+    }
+
+
+    const balances =
+        calculateBalances();
+
+
+    const totalBank =
+        amount + fee;
+
+
+    if(
+        balances.bank <
+        totalBank
+    ){
+
+        showToast(
+            "Saldo Bank tidak cukup."
+        );
+
+        return;
+
+    }
+
+
+    transfers.push({
+
+        id:Date.now(),
+
+        amount:amount,
+
+        fee:fee,
+
+        date:getToday()
+
+    });
+
+
+    localStorage.setItem(
+        "moneytrack_transfers",
+        JSON.stringify(
+            transfers
+        )
+    );
+
+
+    closeTransferModal();
+
+    renderAll();
+
+
+    showToast(
+        "Uang berhasil dipindahkan ke Cash."
+    );
+
+}
+
+
+/* =====================================================
+BUDGET
+===================================================== */
+
+function openBudgetModal(){
+
+    document.getElementById(
+        "budgetInput"
+    ).value =
+        budgets[selectedMonth] || "";
+
+
+    document.getElementById(
+        "budgetModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeBudgetModal(){
+
+    document.getElementById(
+        "budgetModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+function saveBudget(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "budgetInput"
+            ).value
+        );
+
+
+    if(value < 0){
+
+        showToast(
+            "Budget tidak valid."
+        );
+
+        return;
+
+    }
+
+
+    budgets[selectedMonth] =
+        value;
+
+
+    localStorage.setItem(
+        "moneytrack_budgets",
+        JSON.stringify(
+            budgets
+        )
+    );
+
+
+    closeBudgetModal();
+
+    renderBudget();
+
+
+    showToast(
+        "Budget berhasil disimpan."
+    );
+
+}
+
+
+function renderBudget(){
+
+    const budget =
+        Number(
+            budgets[selectedMonth] || 0
+        );
+
+
+    const expense =
+        getMonthTransactions()
+        .filter(
+            function(t){
+                return t.type === "expense";
+            }
+        )
+        .reduce(
+            function(sum,t){
+                return sum +
+                    Number(t.amount);
+            },
+            0
+        );
+
+
+    let percent = 0;
+
+
+    if(budget > 0){
+
+        percent =
+            Math.round(
+                expense /
+                budget *
+                100
+            );
+
+    }
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        Math.min(
+            percent,
+            100
+        ) + "%";
+
+
+    document.getElementById(
+        "budgetPercent"
+    ).textContent =
+        percent + "%";
+
+
+    document.getElementById(
+        "budgetUsed"
+    ).textContent =
+        "Terpakai " +
+        formatMoney(
+            expense
+        );
+
+
+    document.getElementById(
+        "budgetLimit"
+    ).textContent =
+        "Budget " +
+        formatMoney(
+            budget
+        );
+
+}
+
+
+/* =====================================================
+SAVE DATA
+===================================================== */
+
+function saveData(){
+
+    localStorage.setItem(
+        "moneytrack_transactions",
+        JSON.stringify(
+            transactions
+        )
+    );
+
+}
+
+
+/* =====================================================
+EXPORT CSV
+===================================================== */
+
+function exportCSV(){
+
+    const data =
+        getMonthTransactions();
+
+
+    if(data.length === 0){
+
+        showToast(
+            "Tidak ada data untuk diekspor."
+        );
+
+        return;
+
+    }
+
+
+    let csv =
+        "Tanggal,Jenis,Akun,Sumber/Kategori,Nama,Jumlah,Catatan\n";
+
+
+    data.forEach(
+        function(t){
+
+            const detail =
+                t.type === "income"
+                ? t.incomeSource
+                : t.category;
+
+
+            csv += [
+
+                t.date,
+
+                t.type === "income"
+                ? "Pemasukan"
+                : "Pengeluaran",
+
+                t.account === "bank"
+                ? "Bank"
+                : "Cash",
+
+                `"${(
+                    detail || ""
+                ).replace(
+                    /"/g,
+                    '""'
+                )}"`,
+
+                `"${(
+                    t.description || ""
+                ).replace(
+                    /"/g,
+                    '""'
+                )}"`,
+
+                t.amount,
+
+                `"${(
+                    t.note || ""
+                ).replace(
+                    /"/g,
+                    '""'
+                )}"`
+
+            ].join(",") + "\n";
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [
+                "\ufeff" + csv
+            ],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href = url;
+
+
+    link.download =
+        `keuangan-${selectedMonth}.csv`;
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+
+    showToast(
+        "CSV berhasil dibuat."
+    );
+
+}
+
+
+/* =====================================================
+DARK MODE
+===================================================== */
+
+function toggleDarkMode(){
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    localStorage.setItem(
+        "moneytrack_dark",
+        document.body.classList.contains(
+            "dark"
+        )
+    );
+
+}
+
+
+if(
+    localStorage.getItem(
+        "moneytrack_dark"
+    ) === "true"
+){
+
+    document.body.classList.add(
+        "dark"
+    );
+
+}
+
+
+/* =====================================================
+TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+
+/* =====================================================
+CLOSE MODALS
+===================================================== */
+
+window.addEventListener(
+    "click",
+    function(e){
+
+        if(
+            e.target ===
+            document.getElementById(
+                "transferModal"
+            )
+        ){
+
+            closeTransferModal();
+
+        }
+
+
+        if(
+            e.target ===
+            document.getElementById(
+                "budgetModal"
+            )
+        ){
+
+            closeBudgetModal();
+
+        }
+
+
+        if(
+            e.target ===
+            document.getElementById(
+                "editModal"
+            )
+        ){
+
+            closeEditModal();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>

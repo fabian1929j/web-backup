@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Web Apps</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+
+            background: #f5f7fb;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: #222;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            padding: 25px 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 27px;
+            margin-bottom: 7px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Menu */
+        .apps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .app {
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+            color: #222;
+
+            background: white;
+
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid #e7e9ee;
+
+            transition: 0.2s ease;
+        }
+
+        .app:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f1f3f7;
+
+            font-size: 20px;
+
+            margin-right: 12px;
+        }
+
+        .app-info {
+            flex: 1;
+        }
+
+        .app-title {
+            font-size: 15px;
+            font-weight: 600;
+
+            margin-bottom: 3px;
+        }
+
+        .app-description {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .arrow {
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+
+            margin-top: 25px;
+
+            font-size: 11px;
+            color: #aaa;
+        }
+
+        /* HP kecil */
+        @media (max-width: 400px) {
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .app {
+                padding: 11px 13px;
+            }
+
+            .icon {
+                width: 37px;
+                height: 37px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>アビ の WEB</h1>
+            <p>Pilih web dibawah</p>
+        </div>
+
+
+        <!-- DAFTAR WEB -->
+        <div class="apps">
+
+            <!-- WEB KEUANGAN -->
+            <a href="aturkeuangan.html" class="app">
+
+                <div class="icon">
+                    💰
+                </div>
+
+                <div class="app-info">
+                    <div class="app-title">
+                        Atur Keuangan
+                    </div>
+
+                    <div class="app-description">
+                        Kelola pemasukan dan pengeluaran
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+            <!-- WEB WAKTU -->
+            <a href="aturwaktuu.html" class="app">
+
+                <div class="icon">
+                    ⏰
+                </div>
+
+                <div class="app-info">
+                    <div class="app-title">
+                        Atur Waktu
+                    </div>
+
+                    <div class="app-description">
+                        Kelola jadwal dan aktivitas
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </a>
+
+
+            <!--
+            ==========================================
+            CONTOH UNTUK MENAMBAHKAN WEB KETIGA
+            ==========================================
+
+            <a href="nama-file.html" class="app">
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <div class="app-info">
+                    <div class="app-title">
+                        Nama Web
+                    </div>
+
+                    <div class="app-description">
+                        Deskripsi web
+                    </div>
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </a>
+
+            -->
+
+
+        </div>
+
+
+        <!-- FOOTER -->
+        <div class="footer">
+            ©アビ (abi)
+        </div>
+
+    </div>
+
+</body>
+</html>
